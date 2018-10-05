@@ -1,0 +1,7 @@
+{
+  "name": "achewood-reader",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
