@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Comic } from '../comic';
 
+
 @Injectable()
 export class ArchiveProvider {
 
@@ -18,7 +19,11 @@ export class ArchiveProvider {
       map(page => parser.parseFromString(page.toString(), 'text/html')),
       map(document => document.getElementById("body").getElementsByTagName("dl")),
       map(this.getDListElements),
-      map(links => links.map(link => new Comic(link.innerHTML.toString(), link.getAttribute("href"))) )
+      map(links => links.map(link => 
+        new Comic(link.innerHTML.toString(), 
+          link.getAttribute("href"), 
+          this.getDateFromLink(link.getAttribute("href")))) 
+      )
     );
   }
 
@@ -37,6 +42,12 @@ export class ArchiveProvider {
       }
     }
     return elements;
+  }
+
+  getDateFromLink(href: string): string {
+    let datePrefix = "?date=";
+    let index = href.indexOf(datePrefix);
+    return href.substring(index + datePrefix.length,href.length)
   }
 
 }
